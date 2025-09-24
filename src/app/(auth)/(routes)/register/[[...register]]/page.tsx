@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import { RegisterForm } from "../_components/register-form";
 
 function RegisterPage() {
   return (
-    <div>RegisterPage</div>
-  )
+    <div className="min-h-screen bg-gray-100/50 flex items-center justify-center p-4">
+      <RegisterForm />
+    </div>
+  );
 }
 
-export default RegisterPage
+export default RegisterPage;
