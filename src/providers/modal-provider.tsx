@@ -1,6 +1,6 @@
 "use client";
 
-import AdminModal from "@/app/(root)/admin/_components/admin-modal";
+import AdminModal from "@/app/(root)/stores/_components/admin-modal";
 import React from "react";
 
 function ModalProvider() {

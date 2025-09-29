@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Globe, PlugZap, Shield, ToolCase } from "lucide-react";
@@ -20,7 +22,7 @@ export default function Home() {
                 <li>Pricing</li>
               </ul>
               <div>
-                <a href="">
+                <a href="/sign-in">
                   <Button>Get Started</Button>
                 </a>
               </div>

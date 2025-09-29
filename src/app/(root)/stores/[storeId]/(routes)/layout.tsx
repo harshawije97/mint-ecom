@@ -1,8 +1,8 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Metadata } from "next";
 import React from "react";
-import AdminSidebar from "../_components/admin-sidebar";
 import { cookies } from "next/headers";
+import AdminSidebar from "../../_components/admin-sidebar";
 
 export const metadata: Metadata = {
   title: "Mint - Admin Area",
