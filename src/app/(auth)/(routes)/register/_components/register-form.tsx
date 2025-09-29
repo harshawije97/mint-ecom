@@ -1,28 +1,66 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 "use client";
 
 import React from "react";
+
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+// Zod schema
+const registerFormSchema = z
+  .object({
+    fullName: z.string().min(3, {
+      error: "Full name must be at least 3 characters",
+    }),
+    email: z.email(),
+    password: z.string().min(6, {
+      error: "Password must be at least 6 characters",
+    }),
+    confirmPassword: z.string().min(6, {
+      error: "Passwords does not match",
+    }),
+  })
+  .superRefine(({ password, confirmPassword }, ctx) => {
+    if (password !== confirmPassword) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+      });
+    }
+  });
 
 export function RegisterForm() {
-  const [email, setEmail] = React.useState<string>("");
-  const [password, setPassword] = React.useState<string>("");
-  const [fullname, setFullName] = React.useState<string>("");
-  const [confirmPassword, setConfirmPassword] = React.useState<string>("");
   const [acceptTerms, setAcceptTerms] = React.useState<boolean>(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", {
-      email,
-      password,
-      confirmPassword,
-      acceptTerms,
-    });
+  // Define form
+  const registerForm = useForm<z.infer<typeof registerFormSchema>>({
+    resolver: zodResolver(registerFormSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  // on submit the form
+  const handleSubmit = (values: z.infer<typeof registerFormSchema>) => {
+    console.log(values);
   };
 
   return (
@@ -31,106 +69,121 @@ export function RegisterForm() {
         <h1 className="text-2xl font-semibold text-gray-900">Register</h1>
         <p className="text-sm text-gray-600 mt-2">
           Already have an account?{" "}
-          <a href="#" className="text-blue-600 hover:text-blue-700 font-medium">
+          <a
+            href="/sign-in"
+            className="text-blue-600 hover:text-blue-700 font-medium"
+          >
             Sign in here
           </a>
         </p>
       </CardHeader>
 
       <CardContent className="space-y-6">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label
-              htmlFor="firstName"
-              className="text-sm font-medium text-gray-900"
-            >
-              Full Name
-            </Label>
-            <Input
-              id="fullname"
-              type="text"
-              value={fullname}
-              onChange={(e) => setFullName(e.target.value)}
-              className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label
-              htmlFor="email"
-              className="text-sm font-medium text-gray-900"
-            >
-              Email address
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label
-              htmlFor="password"
-              className="text-sm font-medium text-gray-900"
-            >
-              Password
-            </Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label
-              htmlFor="confirmPassword"
-              className="text-sm font-medium text-gray-900"
-            >
-              Confirm Password
-            </Label>
-            <Input
-              id="confirmPassword"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-          <div className="flex items-center space-x-2 pt-2">
-            <Checkbox
-              id="terms"
-              checked={acceptTerms}
-              onCheckedChange={(checked) => setAcceptTerms(checked as boolean)}
-            />
-            <Label htmlFor="terms" className="text-sm text-gray-700">
-              I accept the{" "}
-              <a
-                href="#"
-                className="text-blue-600 hover:text-blue-700 font-medium"
-              >
-                Terms and Conditions
-              </a>
-            </Label>
-          </div>
-
-          <Button
-            type="submit"
-            className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium mt-6"
-            disabled={!acceptTerms}
+        <Form {...registerForm}>
+          <form
+            onSubmit={registerForm.handleSubmit(handleSubmit)}
+            className="space-y-4"
           >
-            Sign up
-          </Button>
-        </form>
+            <FormField
+              control={registerForm.control}
+              name="fullName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel
+                    htmlFor="firstName"
+                    className="text-sm font-medium text-gray-900"
+                  >
+                    Full Name
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={registerForm.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel
+                    htmlFor="email"
+                    className="text-sm font-medium text-gray-900"
+                  >
+                    Email address
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={registerForm.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel
+                    htmlFor="password"
+                    className="text-sm font-medium text-gray-900"
+                  >
+                    Password
+                  </FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={registerForm.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel
+                    htmlFor="confirmPassword"
+                    className="text-sm font-medium text-gray-900"
+                  >
+                    Confirm Password
+                  </FormLabel>
+                  <FormControl>
+                    <div>
+                      <Input type="password" {...field} />
+                      <FormMessage />
+                    </div>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <div className="flex items-center space-x-2 pt-2">
+              <Checkbox
+                id="terms"
+                checked={acceptTerms}
+                onCheckedChange={(checked) =>
+                  setAcceptTerms(checked as boolean)
+                }
+              />
+              <Label htmlFor="terms" className="text-sm text-gray-700">
+                I accept the{" "}
+                <a
+                  href="#"
+                  className="text-blue-600 hover:text-blue-700 font-medium"
+                >
+                  Terms and Conditions
+                </a>
+              </Label>
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium mt-6"
+              disabled={!acceptTerms}
+            >
+              Sign up
+            </Button>
+          </form>
+        </Form>
       </CardContent>
     </Card>
   );

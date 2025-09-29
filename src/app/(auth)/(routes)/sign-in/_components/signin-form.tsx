@@ -1,24 +1,43 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 "use client";
 
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+// define the form schema
+const signInFormSchema = z.object({
+  email: z.email(),
+  password: z.string().min(1, { error: "Password is required" }),
+});
 
 function SignInForm() {
-  const [email, setEmail] = React.useState<string>("");
-  const [password, setPassword] = React.useState<string>("");
-  const [rememberMe, setRememberMe] = React.useState<boolean>(false);
+  const [acceptTerms, setAcceptTerms] = React.useState<boolean>(false);
+  // define the form
+  const signInForm = useForm<z.infer<typeof signInFormSchema>>({
+    resolver: zodResolver(signInFormSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("submit", { email, password, rememberMe });
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    onSubmit(event);
+  const onSubmit = (value: z.infer<typeof signInFormSchema>) => {
+    console.log(value.email, value.password);
   };
 
   return (
@@ -29,7 +48,7 @@ function SignInForm() {
           <p className="text-sm text-gray-600 mt-2">
             Don&apos;t have an account yet?{" "}
             <a
-              href="#"
+              href="/register"
               className="text-blue-600 hover:text-blue-700 font-medium"
             >
               Sign up here
@@ -38,67 +57,68 @@ function SignInForm() {
         </CardHeader>
 
         <CardContent className="space-y-6">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label
-                htmlFor="email"
-                className="text-sm font-medium text-gray-700"
-              >
-                Email address
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label
-                  htmlFor="password"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Password
-                </Label>
-                <a
-                  href="#"
-                  className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-                >
-                  Forgot password?
-                </a>
-              </div>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                required
-              />
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="remember"
-                checked={rememberMe}
-                onCheckedChange={(checked) => setRememberMe(checked as boolean)}
-              />
-              <Label htmlFor="remember" className="text-sm text-gray-700">
-                Remember me
-              </Label>
-            </div>
-
-            <Button
-              type="submit"
-              className="w-full h-12 text-white font-medium"
+          <Form {...signInForm}>
+            <form
+              onSubmit={signInForm.handleSubmit(onSubmit)}
+              className="space-y-4"
             >
-              Sign in
-            </Button>
-          </form>
+              <FormField
+                control={signInForm.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel
+                      className="text-sm font-medium text-gray-900"
+                      htmlFor="email"
+                    >
+                      Email
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={signInForm.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel
+                      className="text-sm font-medium text-gray-900"
+                      htmlFor="password"
+                    >
+                      Password
+                    </FormLabel>
+                    <FormControl>
+                      <>
+                        <Input type="password" {...field} />
+                        <FormMessage />
+                      </>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <div className="flex items-center space-x-2 mt-3">
+                <Checkbox
+                  id="remember"
+                  checked={acceptTerms}
+                  onCheckedChange={(checked) =>
+                    setAcceptTerms(checked as boolean)
+                  }
+                />
+                <Label htmlFor="remember" className="text-sm text-gray-700">
+                  Remember me
+                </Label>
+              </div>
+              <Button
+                type="submit"
+                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium mt-6"
+              >
+                Sign up
+              </Button>
+            </form>
+          </Form>
         </CardContent>
       </Card>
     </>
