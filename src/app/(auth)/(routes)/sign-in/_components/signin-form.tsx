@@ -18,6 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { loginAction } from "../utils/auth-action";
 
 // define the form schema
 const signInFormSchema = z.object({
@@ -27,6 +28,8 @@ const signInFormSchema = z.object({
 
 function SignInForm() {
   const [acceptTerms, setAcceptTerms] = React.useState<boolean>(false);
+  const [loginError, setLoginError] = React.useState<string | null>(null);
+
   // define the form
   const signInForm = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
@@ -37,7 +40,18 @@ function SignInForm() {
   });
 
   const onSubmit = (value: z.infer<typeof signInFormSchema>) => {
-    console.log(value.email, value.password);
+    const response = loginAction({
+      email: value.email,
+      password: value.password,
+    });
+    response.then((res) => {
+      if (res !== null) {
+        setLoginError(res as string);
+      } else {
+        setLoginError(null);
+        window.location.assign("/stores");
+      }
+    });
   };
 
   return (
@@ -57,6 +71,11 @@ function SignInForm() {
         </CardHeader>
 
         <CardContent className="space-y-6">
+          {loginError && (
+            <div className="text-red-600 bg-red-100 p-2 rounded-sm">
+              {loginError}
+            </div>
+          )}
           <Form {...signInForm}>
             <form
               onSubmit={signInForm.handleSubmit(onSubmit)}
@@ -74,7 +93,10 @@ function SignInForm() {
                       Email
                     </FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <div>
+                        <Input {...field} />
+                        <FormMessage />
+                      </div>
                     </FormControl>
                   </FormItem>
                 )}
@@ -91,10 +113,10 @@ function SignInForm() {
                       Password
                     </FormLabel>
                     <FormControl>
-                      <>
+                      <div>
                         <Input type="password" {...field} />
                         <FormMessage />
-                      </>
+                      </div>
                     </FormControl>
                   </FormItem>
                 )}

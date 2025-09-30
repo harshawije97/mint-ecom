@@ -16,7 +16,10 @@ function ModalProvider() {
 
   return (
     <>
-      <AdminModal title="Create Store" description="Add your first e-commerce store"/>
+      <AdminModal
+        title="Create Store"
+        description="Add your first e-commerce store"
+      />
     </>
   );
 }
