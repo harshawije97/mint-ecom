@@ -1,7 +1,6 @@
 import React from "react";
 import ProjectWrapper from "../_components/project-wrapper";
 import ProjectsForm from "../_components/projects-form";
-import UploadImage from "@/components/shared/upload-image";
 
 async function NewProjectPage({ params }: { params: { projectId: string } }) {
   const { projectId } = await params;
