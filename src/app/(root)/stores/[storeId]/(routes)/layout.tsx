@@ -19,8 +19,10 @@ async function RoutesLayout({
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
       <AdminSidebar />
-      <div className="min-h-screen">
-        <SidebarTrigger />
+      <div className="min-h-screen w-full">
+        <div className="sticky top-0 right-4 z-40">
+          <SidebarTrigger />
+        </div>
         {children}
       </div>
     </SidebarProvider>

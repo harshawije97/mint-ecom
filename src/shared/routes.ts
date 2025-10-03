@@ -116,7 +116,7 @@ export const routes: Route[] = [
             {
                 key: crypto.randomUUID(),
                 title: "Settings",
-                url: "#",
+                url: "./settings",
                 icon: Settings,
                 children: false,
                 childrenRoutes: null
