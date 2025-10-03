@@ -1,6 +1,6 @@
 "use client";
 
-import Header, { SubHeader } from "@/components/shared/header";
+import { SubHeader } from "@/components/shared/header";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
 import React from "react";
