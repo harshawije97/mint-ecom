@@ -3,7 +3,7 @@
 import React from "react";
 
 function ProjectClient() {
-  return <div>ProjectClient</div>;
+  return <div className="">ProjectClient</div>;
 }
 
 export default ProjectClient;
