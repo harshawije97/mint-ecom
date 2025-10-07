@@ -76,12 +76,16 @@ function ProjectsForm() {
             )}
           />
 
-          <Button
-            type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-medium mt-4 w-fit self-end"
-          >
-            Update Store
-          </Button>
+          <div className="flex flex-row gap-x-3 mt-4 items-center">
+            <Button
+              type="submit"
+            >
+              Create Project
+            </Button>
+            <Button type="submit" variant={"secondary"}>
+              Create as a Draft
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

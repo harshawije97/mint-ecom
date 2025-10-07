@@ -5,7 +5,11 @@ import ProjectWrapper from "./_components/project-wrapper";
 function ProjectsPage() {
   return (
     <div className="min-h-screen overflow-y-auto flex flex-col">
-      <ProjectWrapper title="Projects (0)" description="Manage your projects">
+      <ProjectWrapper
+        title="Projects (0)"
+        description="Manage your projects"
+        isAction
+      >
         <ProjectClient />
       </ProjectWrapper>
     </div>
