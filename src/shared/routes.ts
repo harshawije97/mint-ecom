@@ -1,4 +1,4 @@
-import { ClipboardList, FolderKanban, LayoutPanelLeft, LucideIcon, Package, Palette, Search, Settings, Shirt, TruckElectric, Users2, Warehouse } from "lucide-react";
+import { BadgeDollarSign, ClipboardList, FolderKanban, LayoutPanelLeft, LucideIcon, Package, Palette, Search, Settings, Shirt, TruckElectric, Users2 } from "lucide-react";
 
 type Route = {
     key: string
@@ -37,7 +37,7 @@ export const routes: Route[] = [
             {
                 key: crypto.randomUUID(),
                 title: "Projects",
-                url: "#",
+                url: "/projects",
                 icon: FolderKanban,
                 children: false,
                 childrenRoutes: null
@@ -59,10 +59,24 @@ export const routes: Route[] = [
             {
                 key: crypto.randomUUID(),
                 title: "Products",
-                url: "#",
+                url: "\./products",
                 icon: Package,
-                children: false,
-                childrenRoutes: null
+                children: true,
+                childrenRoutes: [
+                    {
+                        title: "Colors",
+                        url: "./colors?productID=123",
+                        icon: Palette
+                    }, {
+                        title: "Sizes",
+                        url: "./sizes?productID=123",
+                        icon: Shirt
+                    }, {
+                        title: "Pricing",
+                        url: "./pricing?productID=123",
+                        icon: BadgeDollarSign
+                    }
+                ]
             },
             {
                 key: crypto.randomUUID(),
@@ -71,24 +85,6 @@ export const routes: Route[] = [
                 icon: ClipboardList,
                 children: false,
                 childrenRoutes: null
-            },
-            {
-                key: crypto.randomUUID(),
-                title: "Merchants",
-                url: "#",
-                icon: Warehouse,
-                children: true,
-                childrenRoutes: [
-                    {
-                        title: "Colors",
-                        url: "#",
-                        icon: Palette
-                    }, {
-                        title: "Sizes",
-                        url: "#",
-                        icon: Shirt
-                    }
-                ]
             },
             {
                 key: crypto.randomUUID(),

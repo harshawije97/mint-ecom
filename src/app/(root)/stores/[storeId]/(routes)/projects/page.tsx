@@ -1,14 +1,17 @@
 import React from "react";
 import ProjectClient from "./_components/project-client";
+import ProjectWrapper from "./_components/project-wrapper";
 
 function ProjectsPage() {
   return (
-    <div className="w-full">
-      <div className="flex flex-col">
-        <div className="flex-1 space-y-4 p-8 pt-6">
-          <ProjectClient />
-        </div>
-      </div>
+    <div className="min-h-screen overflow-y-auto flex flex-col">
+      <ProjectWrapper
+        title="Projects (0)"
+        description="Manage your projects"
+        isAction
+      >
+        <ProjectClient />
+      </ProjectWrapper>
     </div>
   );
 }
