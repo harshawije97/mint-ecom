@@ -23,6 +23,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import axios from "axios";
+import { Spinner } from "@/components/ui/spinner";
 
 interface AdminModalInterface {
   title: string;
@@ -36,7 +38,9 @@ const formSchema = z.object({
 });
 
 function AdminModal({ title, description }: AdminModalInterface) {
-  const { isOpen, onClose } = useStoreModal();
+  const { isOpen, onClose, onOpen } = useStoreModal();
+  const [saving, setSaving] = React.useState<boolean>(false);
+
   const storeForm = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,12 +50,16 @@ function AdminModal({ title, description }: AdminModalInterface) {
     },
   });
 
-  const formOnSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log({
-      name: values.name,
-      description: values.description,
-      category: values.category,
-    });
+  const formOnSubmit = async (values: z.infer<typeof formSchema>) => {
+    setSaving(true);
+    const response = await axios.post("/api/stores", values);
+
+    if (response.status === 200) {
+      setSaving(false);
+      onOpen();
+    }
+
+    // create a toast as well --> then navigate to the store page
   };
 
   return (
@@ -139,6 +147,7 @@ function AdminModal({ title, description }: AdminModalInterface) {
                   type="submit"
                   className="bg-blue-600 hover:bg-blue-700 text-white font-medium mt-4"
                 >
+                  {saving ? <Spinner /> : null}
                   Create Store
                 </Button>
               </form>
