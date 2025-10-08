@@ -38,7 +38,7 @@ const formSchema = z.object({
 });
 
 function AdminModal({ title, description }: AdminModalInterface) {
-  const { isOpen, onClose, onOpen } = useStoreModal();
+  const { isOpen, onClose } = useStoreModal();
   const [saving, setSaving] = React.useState<boolean>(false);
 
   const storeForm = useForm<z.infer<typeof formSchema>>({
@@ -56,7 +56,10 @@ function AdminModal({ title, description }: AdminModalInterface) {
 
     if (response.status === 200) {
       setSaving(false);
-      onOpen();
+      onClose();
+
+      const data = response.data;
+      window.location.assign(`/stores/${data}/dashboard`);
     }
 
     // create a toast as well --> then navigate to the store page
