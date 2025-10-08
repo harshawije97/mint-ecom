@@ -59,21 +59,21 @@ export const routes: Route[] = [
             {
                 key: crypto.randomUUID(),
                 title: "Products",
-                url: "./products",
+                url: "\./products",
                 icon: Package,
                 children: true,
                 childrenRoutes: [
                     {
                         title: "Colors",
-                        url: "./products/colors?productID=123",
+                        url: "./colors?productID=123",
                         icon: Palette
                     }, {
                         title: "Sizes",
-                        url: "./products/sizes?productID=123",
+                        url: "./sizes?productID=123",
                         icon: Shirt
                     }, {
                         title: "Pricing",
-                        url: "./products/pricing?productID=123",
+                        url: "./pricing?productID=123",
                         icon: BadgeDollarSign
                     }
                 ]

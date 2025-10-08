@@ -11,6 +11,7 @@ interface ProductWrapperProps {
   description: string;
   children: React.ReactNode;
   isAction?: boolean;
+  actionName?: string;
 }
 
 function ProductsWrapper({
@@ -18,6 +19,7 @@ function ProductsWrapper({
   description,
   children,
   isAction,
+  actionName,
 }: ProductWrapperProps) {
   const params = useParams();
 
@@ -36,7 +38,7 @@ function ProductsWrapper({
             onClick={onNavigate}
           >
             <Plus className="h-4 w-4" />
-            Add Product
+            {actionName || "Add Product"}
           </Button>
         )}
       </div>
