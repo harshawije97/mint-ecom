@@ -2,6 +2,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React from "react";
+import AdvancedOptionsForm from "./advanced-options-form";
 
 function PricingMultiForm() {
   return (
@@ -33,7 +34,9 @@ function PricingMultiForm() {
         <TabsContent value="inventory">Change your password here.</TabsContent>
         <TabsContent value="shipping">Change your password here.</TabsContent>
         <TabsContent value="variables">Change your password here.</TabsContent>
-        <TabsContent value="advanced">Change your password here.</TabsContent>
+        <TabsContent value="advanced">
+          <AdvancedOptionsForm />
+        </TabsContent>
         <TabsContent value="summery">Change your password here.</TabsContent>
       </Tabs>
     </div>

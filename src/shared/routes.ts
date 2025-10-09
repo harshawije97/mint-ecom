@@ -37,7 +37,7 @@ export const routes: Route[] = [
             {
                 key: crypto.randomUUID(),
                 title: "Projects",
-                url: "/projects",
+                url: "./projects",
                 icon: FolderKanban,
                 children: false,
                 childrenRoutes: null
