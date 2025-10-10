@@ -3,9 +3,12 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React from "react";
 import AdvancedOptionsForm from "./advanced-options-form";
+import GeneralPricingForm from "./general-pricing-form";
 
 function PricingMultiForm() {
   return (
+    // in save you have to pass all the details into the summery and save it from there
+    // in the update you have to render each save button int the tab area content
     <div className="max-w-3xl flex flex-col">
       <Tabs defaultValue="general" className="min-w-3xl">
         <TabsList>
@@ -29,9 +32,9 @@ function PricingMultiForm() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="general">
-          Make changes to your account here.
+          <GeneralPricingForm />
         </TabsContent>
-        <TabsContent value="inventory">Change your password here.</TabsContent>
+        <TabsContent value="inventory">Change your inventory here.</TabsContent>
         <TabsContent value="shipping">Change your password here.</TabsContent>
         <TabsContent value="variables">Change your password here.</TabsContent>
         <TabsContent value="advanced">
