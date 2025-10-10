@@ -1,10 +1,13 @@
 "use client";
 
 import React from 'react'
+import PricingMultiForm from './product-multi-form';
 
 function ProductPricingClient() {
   return (
-    <div>ProductPricingClient</div>
+    <div>
+      <PricingMultiForm />
+    </div>
   )
 }
 

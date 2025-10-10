@@ -65,15 +65,15 @@ export const routes: Route[] = [
                 childrenRoutes: [
                     {
                         title: "Colors",
-                        url: "./colors?productID=123",
+                        url: "./products/colors",
                         icon: Palette
                     }, {
                         title: "Sizes",
-                        url: "./sizes?productID=123",
+                        url: "./products/sizes",
                         icon: Shirt
                     }, {
                         title: "Pricing",
-                        url: "./pricing?productID=123",
+                        url: "./products/pricing",
                         icon: BadgeDollarSign
                     }
                 ]

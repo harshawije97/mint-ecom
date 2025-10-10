@@ -10,6 +10,7 @@ interface ProductWrapperProps {
   title: string;
   description: string;
   children: React.ReactNode;
+  slug?: string;
   isAction?: boolean;
   actionName?: string;
 }
@@ -19,11 +20,16 @@ function ProductsWrapper({
   description,
   children,
   isAction,
+  slug,
   actionName,
 }: ProductWrapperProps) {
   const params = useParams();
 
   const onNavigate = () => {
+    if (slug)
+      return window.location.assign(
+        `/stores/${params.storeId}/products/${slug}/action?variant=new`
+      );
     return window.location.assign(`/stores/${params.storeId}/products/new`);
   };
 
