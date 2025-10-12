@@ -5,8 +5,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import React from "react";
+import ProjectComboBox from "./project-combobox";
+import dynamic from "next/dynamic";
 
-function NewProductForm() {
+interface NewProductFormProps {
+  store: string;
+}
+
+function NewProductForm({ store }: NewProductFormProps) {
+  const onNavigateNewProject = () => {
+    window.location.href = `/stores/${store}/projects/new`;
+  };
+
+  const Editor = React.useMemo(
+    () =>
+      dynamic(() => import("@/components/shared/text-editor"), { ssr: false }),
+    []
+  );
   return (
     <div className="md:max-w-3xl sm:w-full">
       <div className="mb-6">
@@ -25,19 +40,27 @@ function NewProductForm() {
           <Input placeholder="Category" />
         </div>
         <div className="w-full mb-4">
-          <Input placeholder="Brand" />
+          <ProjectComboBox />
         </div>
         <div className="w-full mb-4 right">
-          <Button className="w-full" type="button">
+          <Button
+            className="w-full"
+            type="button"
+            onClick={() => onNavigateNewProject()}
+          >
             <Plus className="h-4 w-4" />
-            Add new Brand
+            Add new Project
           </Button>
         </div>
       </div>
-      <div className="w-full grid grid-cols-1 my-4">
-        <div className="bg-gray-50 border border-gray-400 w-full h-[300px] rounded-md">
-          <p>Description of the product</p>
-        </div>
+      <div className="w-full grid grid-cols-1 mt-4 mb-8">
+        <Editor
+          onChange={() => {
+            console.log("change");
+          }}
+          content={""}
+          editable
+        />
       </div>
       <div className="w-full">
         <Button type="submit">Save Product</Button>
