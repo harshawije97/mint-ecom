@@ -40,7 +40,7 @@ function ProjectsForm() {
   return (
     <div className="md:max-w-2xl sm:w-full">
       <div className="mb-6">
-        <UploadImage title="Upload Cover Image" />
+        <UploadImage title="Upload Cover Image" maxSize={2} />
       </div>
       <Form {...form}>
         <form
@@ -77,11 +77,7 @@ function ProjectsForm() {
           />
 
           <div className="flex flex-row gap-x-3 mt-4 items-center">
-            <Button
-              type="submit"
-            >
-              Create Project
-            </Button>
+            <Button type="submit">Create Project</Button>
             <Button type="submit" variant={"secondary"}>
               Create as a Draft
             </Button>

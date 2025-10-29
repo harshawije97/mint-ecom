@@ -14,6 +14,9 @@ import {
 } from "../ui/dialog";
 import { useCoverImageUploadStore } from "@/hooks/use-image-store";
 import { cn } from "@/lib/utils";
+import imageConstructor from "@/utils/helper/image-construct";
+import axios from "axios";
+import { readFileAsDataURL } from "@/utils/readFileRepository";
 
 interface UploadImageProps {
   title: string;
@@ -24,20 +27,27 @@ function UploadImage({ title, maxSize = 2 }: UploadImageProps) {
   const [message, setMessage] = React.useState<string | null>(null);
   const { setUrl, url, removeUrl } = useCoverImageUploadStore();
 
-  const onPreUpload = (file: Array<File>) => {
-    const reader = new FileReader();
-    const [meta] = file;
+  // Create a function to handle the file upload of feature image
 
-    // Check if the meta.size is less than maxSize
-    if (meta.size / 1024 / 1024 <= maxSize) {
-      reader.readAsDataURL(meta);
-      reader.onload = () => {
-        console.log(reader.result);
-      };
-    } else {
+  const onPreUpload = async (file: Array<File>) => {
+    const [meta] = file;
+    if (meta.size / 1024 / 1024 > maxSize) {
       setMessage("Error: Image size must be less than 2MB");
+      return;
     }
-    return;
+
+    const base64 = await readFileAsDataURL(meta);
+    const imageData = imageConstructor({
+      name: meta.name,
+      file: base64,
+      type: meta.type,
+    });
+    const response = await axios.post("/api/projects/images", imageData);
+    if (response.status === 200) {
+      console.log(response.data);
+    } else {
+      console.log(response.statusText);
+    }
   };
 
   return (
