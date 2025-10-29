@@ -8,9 +8,18 @@ async function NewProjectPage({ params }: { params: { projectId: string } }) {
 
   return (
     <div className="min-h-screen overflow-y-auto flex flex-col">
-      <ProjectWrapper title="New Project" description="">
-        <ProjectsForm />
-      </ProjectWrapper>
+      {projectId === "new" ? (
+        <ProjectWrapper title="New Project" description="">
+          <ProjectsForm />
+        </ProjectWrapper>
+      ) : (
+        <ProjectWrapper
+          title="Edit Project"
+          description={`Edit ${projectId} details here`}
+        >
+          <ProjectsForm />
+        </ProjectWrapper>
+      )}
     </div>
   );
 }
